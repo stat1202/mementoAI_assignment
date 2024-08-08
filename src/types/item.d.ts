@@ -6,3 +6,5 @@ interface Item {
 interface MoveResult {
   [key: string]: any;
 }
+
+type Condition = "reorder" | "move" | "stay";
