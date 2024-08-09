@@ -1,24 +1,35 @@
 import { DraggableLocation, DroppableId } from "react-beautiful-dnd";
 
-export const getItems = (count: number, offset = 0): Item[] =>
+export const getItems = (count: number, column = 0): Item[] =>
   Array.from({ length: count }, (v, k) => k).map((k) => ({
-    id: `item-${k + offset}-${new Date().getTime()}`,
-    content: `item ${k + offset + 1}`,
+    id: `item-${column}-${k}-${new Date().getTime()}`,
+    column: `${column}`,
+    content: `item ${column + 1}-${k + 1}`,
+    index: k,
   }));
 
-export const reorder = (list: Item[], startIndex: number, endIndex: number) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
+export const reorder = (
+  list: Item[],
+  selectedIds: string[],
+  destinationIndex: number
+) => {
+  const selectedItems = list.filter((item) => selectedIds.includes(item.id));
+  const remainingItems = list.filter((item) => !selectedIds.includes(item.id));
 
-  return result;
+  const newItems = [
+    ...remainingItems.slice(0, destinationIndex),
+    ...selectedItems,
+    ...remainingItems.slice(destinationIndex),
+  ];
+
+  return newItems;
 };
 
 export const move = (
   source: Item[],
   destination: Item[],
-  droppableSource: { index: number; droppableId: DroppableId },
-  droppableDestination: { index: number; droppableId: DroppableId }
+  droppableSource: DroppableItem,
+  droppableDestination: DroppableItem
 ) => {
   if (droppableSource.index % 2 == 1 && droppableDestination.index % 2 == 0) {
   } else {
@@ -38,20 +49,18 @@ export const move = (
 
 // reorder, move, stay
 export const getCondition = (
-  source: DraggableLocation,
+  item: Item,
   destination: DraggableLocation | null | undefined
-): Condition => {
+) => {
   if (!destination) {
     return "stay";
   }
-  const startIndex = Number(source.droppableId);
+  const startIndex = Number(item.column);
   const destinationIndex = Number(destination.droppableId);
-
-  // 짝수 아이템 앞
-  if (source.index % 2 === 1 && destination.index % 2 === 0) {
+  // // 짝수 아이템 앞
+  if (item.index % 2 === 1 && destination.index % 2 === 1) {
     return "stay";
   }
-
   if (startIndex === destinationIndex) {
     return "reorder";
   } else if (startIndex === 0 && destinationIndex === 2) {
