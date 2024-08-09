@@ -84,7 +84,9 @@ export default function DragNDropProvider({
           categories[startIndex],
           selectedIds,
           destination.index
-        );
+        ).map((item, idx) => {
+          return { ...item, index: idx };
+        });
         const reorderedState = [...categories];
         reorderedState[startIndex] = reorderedItems;
         setCategories(reorderedState);
@@ -98,8 +100,8 @@ export default function DragNDropProvider({
           ...categories[destinationIndex].slice(0, destination.index),
           ...selectedItems,
           ...categories[destinationIndex].slice(destination.index),
-        ].map((item) => {
-          return { ...item, offset: destination.droppableId };
+        ].map((item, idx) => {
+          return { ...item, column: destination.droppableId, index: idx };
         });
 
         const movedState = [...categories];
