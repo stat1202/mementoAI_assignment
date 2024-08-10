@@ -1,4 +1,4 @@
-import { DraggableLocation, DroppableId } from "react-beautiful-dnd";
+import { DraggableLocation } from "react-beautiful-dnd";
 
 export const getItems = (count: number, column = 0): Item[] =>
   Array.from({ length: count }, (v, k) => k).map((k) => ({

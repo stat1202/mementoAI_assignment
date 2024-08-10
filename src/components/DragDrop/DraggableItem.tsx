@@ -17,6 +17,12 @@ export default function DraggableItem({ item, index }: DraggableItemsProps) {
       ? "bg-red-400"
       : "bg-gray-200"
     : "bg-white";
+
+  const itemState =
+    condition !== null &&
+    draggedItem?.droppableId === item.column &&
+    draggedItem?.index === Number(item.index);
+
   return (
     <Draggable draggableId={item.id} index={index} key={item.id}>
       {(provided) => (
@@ -32,13 +38,11 @@ export default function DraggableItem({ item, index }: DraggableItemsProps) {
                   `}
         >
           <div className={`flex justify-around`}>{item.content}</div>
-          {condition !== null &&
-            draggedItem?.droppableId === item.column &&
-            draggedItem?.index === Number(item.index) && (
-              <div className="absolute -right-2 -top-2 w-8 h-8 bg-gray-600 text-white flex items-center justify-center font-bold rounded-full">
-                {selectedItems.length}
-              </div>
-            )}
+          {itemState && (
+            <div className="absolute -right-2 -top-2 w-8 h-8 bg-gray-600 text-white flex items-center justify-center font-bold rounded-full">
+              {selectedItems.length}
+            </div>
+          )}
         </div>
       )}
     </Draggable>
