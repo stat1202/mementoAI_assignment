@@ -32,7 +32,8 @@ export default function DraggableItem({ item, index }: DraggableItemsProps) {
                   `}
         >
           <div className={`flex justify-around`}>{item.content}</div>
-          {draggedItem?.droppableId === item.column &&
+          {condition !== null &&
+            draggedItem?.droppableId === item.column &&
             draggedItem?.index === Number(item.index) && (
               <div className="absolute -right-2 -top-2 w-8 h-8 bg-gray-600 text-white flex items-center justify-center font-bold rounded-full">
                 {selectedItems.length}

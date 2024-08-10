@@ -62,7 +62,6 @@ export default function useDragDrop() {
     const startIndex = Number(source.droppableId);
     const destinationIndex = Number(destination.droppableId);
 
-    setSelectedItems([]);
     setCondition(null);
     setDraggedItem(null);
     switch (condition) {
@@ -80,12 +79,15 @@ export default function useDragDrop() {
         const reorderedState = [...categories];
         reorderedState[startIndex] = reorderedItems;
         setCategories(reorderedState);
+        setSelectedItems([]);
 
         return;
       case "move":
-        const filteredStartItems = categories[startIndex].filter(
-          (item) => !selectedItems.includes(item)
-        );
+        const filteredStartItems = categories[startIndex]
+          .filter((item) => !selectedItems.includes(item))
+          .map((item, idx) => {
+            return { ...item, index: idx };
+          });
         const newDestinationItems = [
           ...categories[destinationIndex].slice(0, destination.index),
           ...selectedItems,
@@ -97,7 +99,7 @@ export default function useDragDrop() {
         const movedState = [...categories];
         movedState[startIndex] = filteredStartItems;
         movedState[destinationIndex] = newDestinationItems;
-
+        setSelectedItems([]);
         setCategories(movedState.filter((group: any) => group.length));
         return;
     }
