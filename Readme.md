@@ -25,6 +25,17 @@
  ┃ ┗ 📜index.tsx
 ```
 
+
+- `components/DragDrop`
+  - 드래그 드롭 관련 컴포넌트가 있습니다.
+  - `DragNDropProvider.tsx` - `DragDrop`에서 `state`를 `context`로 관리해서 사용하는 부분입니다. `context`로 사용하고 싶은 요소를 추가할 수 있습니다. 
+  - `DragDropContainer.tsx` - `DragDropContext` 로 감싸지는 부분으로 실질적으로 드래그 드롭이 시작되는 부분입니다.
+  - `DraggableItem.tsx` - `Droppable`을 관리하는 컴포넌트 입니다.
+  - `DroppableItem.tsx` - `Draggable`을 관리하는 컴포넌트 입니다.
+- `utils/item.ts` - `getItems`, `reorder`, `move`, `getCondition`과 같은 `item` 관련 로직을 처리하는 함수들로 구성되어 있습니다.`
+- `hooks/useDragDrop.tsx` - 드래그 드롭 관련 state를 처리하고 관리합니다. `onDragStart`, `onDragUpdate`, `onDragEnd`, `toggleSelection`이 있습니다.
+- `types/item.d.ts` - `item` 및 `DragDrop` 관련 타입을 정의하고 관리합니다.
+
 ## 구현 결과
 
 ### Webpack 적용
@@ -106,6 +117,12 @@ https://github.com/user-attachments/assets/1f67994f-c1d8-4cbc-ade9-68253039a5b9
 https://github.com/user-attachments/assets/23c1faac-9253-4c1b-a92c-849bcd8a0262
 
 - 드래그 시 사용자가 선택한 요소의 개수를 볼 수 있도록 설계했습니다.
+
+### 추가 구현
+
+https://github.com/user-attachments/assets/a4593e65-e5b5-46b8-8374-8c99b7f70fa7
+
+- 드래그 드롭 실패 시 사용자가 선택한 항목이 유지될 수 있도록 설정했습니다.
 
 ## 개발 지침
 
